@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title></title>
+    <title>Aquarelle</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 </head>
@@ -61,6 +61,7 @@
     }
 </style>
 
+<!-- This is the "Scroll Down" SVG and mouse icon -->
 <div>
 <!--
     <svg viewBox="0 0 62.2 96.8">
@@ -75,11 +76,18 @@
 
 <script>
 
+    // This is targeting the above div (how it knows what to base its scroll info off of)
     var text = document.getElementsByTagName('div')[0];
+    
+    // First image is the content, the mask is the shape in which it appears in
     var aquarelle = new Aquarelle('img/fishing.jpg', 'img/mask.png', {
-        toOffset: 50
+        // Larger the number, the more aggressive the influence of the mask image was
+        //  - 5 is a slow transition, 500 jumps right to the full dimensions; default is 50
+        fromAmplitude: 50,
+        toAmplitude: 0
     });
 
+    // Initializing the animation on a (re)load
     function scrollReset() {
         var body = document.body;
         aquarelle.progress = body.scrollTop / (body.scrollHeight - window.innerHeight);
@@ -96,7 +104,7 @@
         scrollReset();
     });
     aquarelle.addEventListener('changed', function() {
-        document.body.style.webkitFilter = 'blur(' + this.transitionInRange(0, 8, 3000) + 'px)';
+        document.body.style.webkitFilter = 'blur(' + this.transitionInRange(8, 2, 3000) + 'px)';
 
         text.style.webkitFilter = 'blur(' + this.transitionInRange(0, 2, 0, 1000) + 'px)';
         text.style.webkitTransform = text.style.transform = 'scale(' + this.transitionInRange(1, .95, 0, 1000) + ')';
